@@ -1,0 +1,305 @@
+/* ==========================================================
+   Dunes: Login & Register
+   Translated from the Figma frames "Login Page" / "Register Page"
+   (1980x1080 artboards). Sizes below are scaled to fluid units.
+   ========================================================== */
+
+:root {
+    --ink: #dbe2ef;          /* headings */
+    --accent: #3f72af;       /* "space", primary button */
+    --deep: #112d4e;         /* panel tint */
+    --link: #0088ff;         /* Register Now / Login */
+    --terms: #6155f5;        /* Terms / Conditions */
+    --check: #1b54fe;        /* checkbox on */
+    --field: rgba(196, 196, 196, 0.2);
+    --placeholder: rgba(172, 172, 172, 0.8);
+    --error: #ffb4b4;
+    --error-bg: rgba(160, 30, 30, 0.35);
+    --ok-bg: rgba(30, 130, 90, 0.35);
+    --ok: #b8f5d8;
+    --radius: 10px;
+    --panel-w: clamp(440px, 37.2vw, 740px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+    font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color: #fff;
+    background: #0a1a33;
+}
+
+/* ---------- Stage: photo background + two columns ---------- */
+.stage {
+    min-height: 100vh;
+    display: flex;
+    /* Export the Figma background as assets/img/bg.jpg. The gradient shows if it is missing. */
+    background:
+        url('../img/bg.jpg') center / cover no-repeat,
+        radial-gradient(120% 90% at 30% 65%, #1d3a6b 0%, #112d4e 45%, #07142b 100%);
+}
+
+.hero {
+    flex: 1;
+    position: relative;
+    padding: clamp(2rem, 5.6vw, 6rem) clamp(2rem, 4.3vw, 5.4rem);
+}
+
+.mark { display: block; margin-bottom: 1.2rem; opacity: 0.9; }
+
+.tagline {
+    margin: 0;
+    max-width: 14em;
+    font-size: clamp(1.6rem, 2.3vw, 2.8rem);
+    line-height: 1.4;
+    font-weight: 400;
+    color: var(--ink);
+    text-shadow: 16px 9px 10px rgba(0, 0, 0, 0.25);
+}
+.tagline strong { font-weight: 800; color: var(--accent); }
+
+/* ---------- Glass panel ---------- */
+.panel {
+    width: var(--panel-w);
+    flex-shrink: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(17, 45, 78, 0.55), rgba(10, 26, 51, 0.72));
+    -webkit-backdrop-filter: blur(22px);
+    backdrop-filter: blur(22px);
+    border-left: 1px solid rgba(219, 226, 239, 0.25);
+}
+
+.panel-inner {
+    width: 100%;
+    padding: clamp(1.8rem, 3vw, 3.4rem) clamp(1.6rem, 3.3vw, 4rem);
+}
+
+.head h1 {
+    margin: 0;
+    font-size: clamp(2rem, 3.1vw, 3.75rem);
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--ink);
+    text-shadow: 9px 13px 6px rgba(0, 0, 0, 0.25);
+}
+.head-register h1 { font-size: clamp(1.8rem, 2.9vw, 3.5rem); }
+
+.sub {
+    margin: 0.4rem 0 0;
+    font-size: clamp(1rem, 1.5vw, 1.9rem);
+    text-shadow: 0 13px 8px rgba(0, 0, 0, 0.25);
+}
+.sub.small { font-size: 0.95rem; text-shadow: none; }
+
+hr {
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    margin: 1.6rem 0 1.8rem;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- Fields ---------- */
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+
+.field { position: relative; margin-bottom: 1.15rem; }
+
+.field input[type='text'],
+.field input[type='email'],
+.field input[type='password'] {
+    width: 100%;
+    height: 4.2rem;
+    padding: 0 3.6rem 0 1.6rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background: var(--field);
+    color: #fff;
+    font: 800 1.05rem 'Poppins', sans-serif;
+    outline: none;
+    transition: border-color .15s, background .15s;
+}
+.field input::placeholder { color: var(--placeholder); font-weight: 800; }
+.field input:focus { border-color: rgba(219, 226, 239, 0.7); background: rgba(196, 196, 196, 0.28); }
+
+.field .icon {
+    position: absolute;
+    right: 1.3rem;
+    top: 1.45rem;
+    height: 26px;
+    display: block;
+    background: none;
+    border: 0;
+    padding: 0;
+    pointer-events: none;
+}
+.field .toggle-pw { pointer-events: auto; cursor: pointer; border-radius: 6px; }
+.field .toggle-pw:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.field .toggle-pw.on { opacity: 0.55; }
+
+.hint { margin: 0.35rem 0 0 0.3rem; font-size: 0.78rem; color: rgba(255, 255, 255, 0.65); }
+
+.error { margin: 0.4rem 0 0 0.3rem; min-height: 0; font-size: 0.82rem; color: var(--error); }
+.error:empty { display: none; }
+.field.has-error input { border-color: #ff7b7b; }
+.field.has-error .hint { display: none; }
+
+/* ---------- Remember-me switch (3D toggle) ---------- */
+.switch-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.2rem 0 1.6rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.switch { position: absolute; opacity: 0; width: 1px; height: 1px; }
+
+.switch-ui {
+    position: relative;
+    width: 75px;
+    height: 38px;
+    border-radius: 50px;
+    background: #efefef;
+    box-shadow: inset 0 6px 8px 3px rgba(0, 0, 0, 0.1);
+    transition: background .2s;
+    flex-shrink: 0;
+}
+.switch-ui::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 2px 1px 6px rgba(0, 0, 0, 0.25);
+    transition: transform .2s;
+}
+.switch:checked + .switch-ui { background: var(--accent); }
+.switch:checked + .switch-ui::after { transform: translateX(37px); }
+.switch:focus-visible + .switch-ui { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* ---------- Terms checkbox ---------- */
+.terms { margin: 0.2rem 0 1.4rem; }
+.check { display: flex; gap: 0.8rem; align-items: center; font-size: 0.9rem; cursor: pointer; }
+.check input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.check-ui {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 5px;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    transition: background .15s, border-color .15s;
+}
+.check-ui svg { opacity: 0; }
+.check input:checked + .check-ui { background: var(--check); border-color: var(--check); }
+.check input:checked + .check-ui svg { opacity: 1; }
+.check input:focus-visible + .check-ui { outline: 2px solid var(--ink); outline-offset: 3px; }
+.check a { color: var(--terms); }
+.terms.has-error .check-ui { border-color: #ff7b7b; }
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+    display: block;
+    width: min(100%, 435px);
+    height: 4.2rem;
+    margin: 0 auto;
+    border: 0;
+    border-radius: 50px;
+    background: var(--accent);
+    color: rgba(255, 255, 255, 0.9);
+    font: 800 1.15rem 'Poppins', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    transition: filter .15s, transform .1s;
+}
+.btn-primary:hover { filter: brightness(1.1); }
+.btn-primary:active { transform: translateY(1px); }
+.btn-primary:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.forgot {
+    display: block;
+    margin: 1.1rem auto 0;
+    width: fit-content;
+    color: #fff;
+    font-weight: 800;
+    font-size: 1rem;
+    text-decoration: underline;
+}
+
+/* ---------- Divider with text ---------- */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0 1.3rem;
+    font-size: 0.95rem;
+}
+.divider::before, .divider::after { content: ''; flex: 1; border-top: 1px solid rgba(255, 255, 255, 0.8); }
+
+/* ---------- Social buttons ---------- */
+.social { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.social-btn {
+    height: 3.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font: 600 1.05rem 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background .15s;
+}
+.social-btn:hover { background: rgba(255, 255, 255, 0.16); }
+.social-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.soon { margin: 0.8rem 0 0; font-size: 0.85rem; color: rgba(255, 255, 255, 0.75); text-align: center; }
+
+.switch-page { margin: 1.4rem 0 0; font-size: 0.95rem; }
+
+/* ---------- Alerts ---------- */
+.alert {
+    margin-bottom: 1.2rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius);
+    font-size: 0.92rem;
+    border: 1px solid transparent;
+}
+.alert-error { background: var(--error-bg); color: var(--error); border-color: rgba(255, 123, 123, 0.5); }
+.alert-success { background: var(--ok-bg); color: var(--ok); border-color: rgba(120, 230, 180, 0.5); }
+
+/* ---------- Dashboard ---------- */
+.profile { display: grid; grid-template-columns: max-content 1fr; gap: 0.7rem 1.5rem; margin: 0 0 2rem; }
+.profile dt { color: rgba(255, 255, 255, 0.65); }
+.profile dd { margin: 0; font-weight: 600; word-break: break-word; }
+
+/* ---------- Responsive: panel takes the full width on small screens ---------- */
+@media (max-width: 900px) {
+    .stage { flex-direction: column; }
+    .hero { flex: none; padding-bottom: 1rem; }
+    .panel { width: 100%; min-height: 0; flex: 1; border-left: 0; border-top: 1px solid rgba(219, 226, 239, 0.25); }
+}
+
+@media (max-width: 520px) {
+    .row { grid-template-columns: 1fr; gap: 0; }
+    .social { grid-template-columns: 1fr; }
+    .field input[type='text'], .field input[type='email'], .field input[type='password'] { height: 3.7rem; }
+    .field .icon { top: 1.2rem; }
+    .btn-primary { height: 3.7rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+}
